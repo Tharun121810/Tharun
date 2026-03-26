@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tharun Breakfast Center – Fresh South Indian Breakfast</title>
+  <meta name="description" content="Order fresh South Indian breakfast at Tharun Breakfast Center. Choose from Dosa, Idly, Upma, Pongal, Poori, Vade, Tea and Coffee." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+<body>
+
+  <!-- ══════════════════ HEADER ══════════════════ -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">🍽️</span>
+        <div>
+          <h1 class="logo-title">Tharun</h1>
+          <p class="logo-sub">Breakfast Center</p>
+        </div>
+      </div>
+      <nav class="nav-links">
+        <a href="#menu">Menu</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <button class="cart-toggle-btn" id="cartToggleBtn" aria-label="Open Cart">
+        <span class="cart-icon">🛒</span>
+        <span class="cart-badge" id="cartBadge">0</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ══════════════════ HERO ══════════════════ -->
+  <section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <span class="hero-tag">🌅 Fresh Every Morning</span>
+      <h2 class="hero-title">Taste the Heart of<br/><span class="accent">South India</span></h2>
+      <p class="hero-desc">
+        Authentic flavours crafted with love — served hot, served fresh,<br/>
+        right at your table.
+      </p>
+      <a href="#menu" class="btn-primary">
+        Explore Our Menu <span class="arrow">→</span>
+      </a>
+    </div>
+    <div class="hero-floats">
+      <div class="float-chip" style="--delay:0s">🥞 Dosa</div>
+      <div class="float-chip" style="--delay:0.6s">☕ Filter Coffee</div>
+      <div class="float-chip" style="--delay:1.2s">🫔 Poori</div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ MENU ══════════════════ -->
+  <section class="section menu-section" id="menu">
+    <div class="section-header">
+      <span class="section-label">Our Specialities</span>
+      <h2 class="section-title">Today's Menu</h2>
+      <p class="section-desc">Tap any item to add it to your order. Fresh, hot & ready in minutes!</p>
+    </div>
+
+    <!-- Category filter tabs -->
+    <div class="filter-tabs">
+      <button class="filter-tab active" data-cat="all">All Items</button>
+      <button class="filter-tab" data-cat="food">Food</button>
+      <button class="filter-tab" data-cat="beverage">Beverages</button>
+    </div>
+
+    <!-- Menu grid – populated by JS -->
+    <div class="menu-grid" id="menuGrid">
+      <!-- Skeleton loaders while fetching -->
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card"></div>
+    </div>
+
+    <div class="menu-error hidden" id="menuError">
+      <span>⚠️</span>
+      <p>Could not load menu. Please check server connection.</p>
+    </div>
+  </section>
+
+  <!-- ══════════════════ ABOUT ══════════════════ -->
+  <section class="section about-section" id="about">
+    <div class="about-grid">
+      <div class="about-text">
+        <span class="section-label">Our Story</span>
+        <h2 class="section-title">Why Tharun?</h2>
+        <p>We believe every morning deserves a perfect start. At <strong>Tharun Breakfast Center</strong>, we bring you authentic South Indian breakfast prepared fresh every day using traditional recipes and the finest ingredients.</p>
+        <div class="about-stats">
+          <div class="stat"><span class="stat-num">8+</span><span class="stat-label">Menu Items</span></div>
+          <div class="stat"><span class="stat-num">100%</span><span class="stat-label">Fresh Daily</span></div>
+          <div class="stat"><span class="stat-num">⭐ 5</span><span class="stat-label">Star Taste</span></div>
+        </div>
+      </div>
+      <div class="about-img-wrap">
+        <img src="https://images.unsplash.com/photo-1742281257707-0c7f7e5ca9c6?q=80&w=1500&auto=format&fit=crop" alt="South Indian breakfast spread" class="about-img" />
+        <div class="about-badge">Est. 2010</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ CONTACT ══════════════════ -->
+  <section class="section contact-section" id="contact">
+    <div class="section-header">
+      <span class="section-label">Visit Us</span>
+      <h2 class="section-title">Find Us Here</h2>
+    </div>
+    <div class="contact-cards">
+      <div class="contact-card"><span class="contact-icon">🕗</span><strong>Hours</strong><p>6:00 AM – 11:00 AM</p></div>
+      <div class="contact-card"><span class="contact-icon">📍</span><strong>Location</strong><p>Tharun Breakfast Center, Tamil Nadu</p></div>
+      <div class="contact-card"><span class="contact-icon">📞</span><strong>Call Us</strong><p>9844526058</p></div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ FOOTER ══════════════════ -->
+  <footer class="footer">
+    <p>© 2025 <strong>Tharun Breakfast Center</strong> | Made with ❤️ for great food lovers</p>
+  </footer>
+
+  <!-- ══════════════════ CART SIDEBAR ══════════════════ -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <aside class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+      <h3>🛒 Your Order</h3>
+      <button class="cart-close" id="cartClose">✕</button>
+    </div>
+
+    <div class="cart-items" id="cartItems">
+      <div class="cart-empty" id="cartEmpty">
+        <span>🍽️</span>
+        <p>Your cart is empty</p>
+        <small>Add items from the menu</small>
+      </div>
+    </div>
+
+    <div class="cart-footer" id="cartFooter" style="display:none">
+      <div class="cart-summary">
+        <div class="summary-row"><span>Subtotal</span><span id="subtotalAmt">₹0</span></div>
+        <div class="summary-row tax"><span>GST (5%)</span><span id="taxAmt">₹0</span></div>
+        <div class="summary-row total"><span>Total</span><span id="totalAmt">₹0</span></div>
+      </div>
+      <div class="customer-name-wrap">
+        <input type="text" id="customerName" placeholder="Your name (optional)" class="name-input" />
+      </div>
+      <button class="btn-checkout" id="checkoutBtn">
+        Pay Now &nbsp;💳
+      </button>
+    </div>
+  </aside>
+
+  <!-- ══════════════════ QR PAYMENT MODAL ══════════════════ -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-box">
+      <button class="modal-close" id="modalClose">✕</button>
+      <div class="modal-header">
+        <h3>Scan & Pay</h3>
+        <p class="modal-order-id">Order #<span id="modalOrderId">—</span></p>
+      </div>
+      <div class="modal-amount">
+        <span>Amount to Pay</span>
+        <strong id="modalTotalAmount">₹0</strong>
+      </div>
+      <div class="qr-wrapper">
+        <img src="./images/qr_code.png" alt="PhonePe QR Code – Tharun K" class="qr-img" id="qrCodeImg" />
+        <div class="qr-label">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/PhonePe_Logo.svg/120px-PhonePe_Logo.svg.png" alt="PhonePe" class="phonepe-logo" />
+          <span>Scan using PhonePe / any UPI App</span>
+        </div>
+      </div>
+      <div class="modal-name-badge">
+        <span>Pay to: <strong>THARUN K</strong></span>
+      </div>
+      <button class="btn-done" id="donePaidBtn">✅ Done – I have paid</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════ TOAST NOTIFICATION ══════════════════ -->
+  <div class="toast" id="toast"></div>
+
+  <script src="./js/app.js"></script>
+</body>
+</html>
