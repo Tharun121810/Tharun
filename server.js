@@ -18,21 +18,25 @@ app.use(express.static(path.join(__dirname, 'public')));
 // ─── MySQL Connection Pool ────────────────────────────────────────────────────
 const connectionUri = process.env.MYSQL_PUBLIC_URL || process.env.MYSQL_URL;
 
-const poolConfig = connectionUri 
-  ? { uri: connectionUri, timezone: '+05:30', waitForConnections: true, connectionLimit: 10, queueLimit: 0 }
-  : {
-      host:     process.env.MYSQLHOST     || process.env.DB_HOST     || 'localhost',
-      user:     process.env.MYSQLUSER     || process.env.DB_USER     || 'root',
-      password: process.env.MYSQLPASSWORD || process.env.DB_PASSWORD || 'tiger',
-      database: process.env.MYSQLDATABASE || process.env.DB_NAME     || 'tharun_db',
-      port:     process.env.MYSQLPORT     || 3306,
-      timezone: '+05:30',
-      waitForConnections: true,
-      connectionLimit: 10,
-      queueLimit: 0
-    };
+// We prefer individual variables for clarity, but use URI as a fallback
+const poolConfig = {
+  host:     process.env.MYSQLHOST     || process.env.DB_HOST     || 'localhost',
+  user:     process.env.MYSQLUSER     || process.env.DB_USER     || 'root',
+  password: process.env.MYSQLPASSWORD || process.env.DB_PASSWORD || 'tiger',
+  database: process.env.MYSQLDATABASE || process.env.DB_NAME     || 'tharun_db',
+  port:     Number(process.env.MYSQLPORT) || 3306,
+  timezone: '+05:30',
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
+  connectTimeout: 15000, // Extend for Railway proxy wakeups
+  ssl: process.env.MYSQLHOST && !process.env.MYSQLHOST.includes('localhost') ? { rejectUnauthorized: false } : false
+};
 
-const pool = connectionUri ? mysql2.createPool(connectionUri) : mysql2.createPool(poolConfig);
+// If a URI is provided and no specific broken-out host is set, use the URI
+const pool = (connectionUri && !process.env.MYSQLHOST) 
+  ? mysql2.createPool(connectionUri) 
+  : mysql2.createPool(poolConfig);
 
 const db = pool.promise();
 
@@ -40,8 +44,8 @@ const db = pool.promise();
 (async () => {
   try {
     const [rows] = await db.query('SELECT @@session.time_zone AS tz, NOW() AS local_time');
-    console.log('✅  MySQL connected to database: ' + (process.env.MYSQLDATABASE || process.env.DB_NAME || 'tharun_db'));
-    console.log(`🕒  Database session timezone: ${rows[0].tz} | Current IST Time: ${rows[0].local_time}`);
+    console.log(`✅  MySQL connected to: ${process.env.MYSQLHOST || 'localhost'}`);
+    console.log(`🕒  Database session: ${rows[0].tz} | Current IST: ${rows[0].local_time}`);
 
   } catch (err) {
     console.error('❌  MySQL connection failed:', err.message);
@@ -62,7 +66,7 @@ app.get('/api/menu', async (req, res) => {
     res.json({ success: true, data: rows });
   } catch (err) {
     console.error('Error fetching menu:', err);
-    res.status(500).json({ success: false, message: 'Failed to fetch menu items.' });
+    res.status(500).json({ success: false, message: 'Failed to fetch menu items.', error: err.message });
   }
 });
 
