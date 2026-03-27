@@ -40,7 +40,7 @@ const db = pool.promise();
 (async () => {
   try {
     const [rows] = await db.query('SELECT @@session.time_zone AS tz, NOW() AS local_time');
-    console.log('✅  MySQL connected to database: ' + (process.env.DB_NAME || 'tharun_db'));
+    console.log('✅  MySQL connected to database: ' + (process.env.MYSQLDATABASE || process.env.DB_NAME || 'tharun_db'));
     console.log(`🕒  Database session timezone: ${rows[0].tz} | Current IST Time: ${rows[0].local_time}`);
 
   } catch (err) {

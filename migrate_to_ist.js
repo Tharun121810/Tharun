@@ -6,14 +6,20 @@ require('dotenv').config();
 const mysql = require('mysql2/promise');
 
 (async () => {
-  const conn = await mysql.createConnection({
-    host:     process.env.MYSQLHOST     || process.env.DB_HOST     || 'localhost',
-    user:     process.env.MYSQLUSER     || process.env.DB_USER     || 'root',
-    password: process.env.MYSQLPASSWORD || process.env.DB_PASSWORD || 'tiger',
-    database: process.env.MYSQLDATABASE || process.env.DB_NAME     || 'tharun_db',
-    port:     process.env.MYSQLPORT     || 3306,
-    timezone: '+05:30'
-  });
+  const connectionUri = process.env.MYSQL_PUBLIC_URL || process.env.MYSQL_URL;
+  
+  const connParams = connectionUri 
+    ? { uri: connectionUri, timezone: '+05:30' }
+    : {
+        host:     process.env.MYSQLHOST     || process.env.DB_HOST     || 'localhost',
+        user:     process.env.MYSQLUSER     || process.env.DB_USER     || 'root',
+        password: process.env.MYSQLPASSWORD || process.env.DB_PASSWORD || 'tiger',
+        database: process.env.MYSQLDATABASE || process.env.DB_NAME     || 'tharun_db',
+        port:     process.env.MYSQLPORT     || 3306,
+        timezone: '+05:30'
+      };
+
+  const conn = await mysql.createConnection(connParams);
 
   try {
     console.log('✅  Connected to MySQL server.');
