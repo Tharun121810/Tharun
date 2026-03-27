@@ -4,19 +4,25 @@
 
 -- Removed CREATE DATABASE and USE to support Railway and generic environments
 
+-- ─── Cleanup ──────────────────────────────────
+DROP TABLE IF EXISTS order_items;
+DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS menu_items;
+
 -- ─── Menu Items ──────────────────────────────
-CREATE TABLE IF NOT EXISTS menu_items (
+CREATE TABLE menu_items (
   id          INT AUTO_INCREMENT PRIMARY KEY,
   name        VARCHAR(100)   NOT NULL,
   description VARCHAR(255)   NOT NULL,
   price       DECIMAL(10,2)  NOT NULL,
   image_url   VARCHAR(500)   NOT NULL,
-  category    VARCHAR(50)    NOT NULL DEFAULT 'food',
-  created_at  DATETIME       DEFAULT CURRENT_TIMESTAMP
+  category      VARCHAR(50)    NOT NULL DEFAULT 'food',
+  is_available  TINYINT(1)     NOT NULL DEFAULT 1,
+  created_at    DATETIME       DEFAULT CURRENT_TIMESTAMP
 );
 
 -- ─── Orders (Full Timestamp in IST +05:30) ───────────────
-CREATE TABLE IF NOT EXISTS orders (
+CREATE TABLE orders (
   id              INT AUTO_INCREMENT PRIMARY KEY,
   customer_name   VARCHAR(100)  NOT NULL DEFAULT 'Guest',
   total_amount    DECIMAL(10,2) NOT NULL,
@@ -43,54 +49,54 @@ TRUNCATE TABLE menu_items;
 SET FOREIGN_KEY_CHECKS = 1;
 
 -- ─── Seed Menu Items ─────────────────────────
-INSERT INTO menu_items (name, description, price, image_url, category) VALUES
+INSERT INTO menu_items (name, description, price, image_url, category, is_available) VALUES
 ('Dosa',
  'Crispy golden masala dosa served with fresh coconut chutney & sambar',
  50.00,
  'https://images.unsplash.com/photo-1743615467204-8fdaa85ff2db?q=80&w=600&auto=format&fit=crop',
- 'food'),
+ 'food', 1),
 
 ('Idly',
  'Soft steamed idly (2 pcs) served with traditional chutney & sambar',
  40.00,
  'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?q=80&w=600&auto=format&fit=crop',
- 'food'),
+ 'food', 1),
 
 ('Upma',
  'Authentic rava upma tempered with mustard, curry leaves & nuts',
  45.00,
  'https://images.unsplash.com/photo-1630409349197-b733a524b24e?q=80&w=600&auto=format&fit=crop',
- 'food'),
+ 'food', 1),
 
 ('Pongal',
  'Delicious ven pongal garnished with ghee, ginger & black pepper',
  50.00,
  'https://images.unsplash.com/photo-1630409351211-d62ab2d24da4?q=80&w=600&auto=format&fit=crop',
- 'food'),
+ 'food', 1),
 
 ('Poori',
  'Golden puffy poori (2 pcs) served with traditional potato masala/sagu',
  55.00,
  'https://images.unsplash.com/photo-1643892467625-65df6a500524?q=80&w=600&auto=format&fit=crop',
- 'food'),
+ 'food', 1),
 
 ('Vade',
  'Crispy medu vade (2 pcs) with a soft interior, served with chutney',
  45.00,
  'https://images.unsplash.com/photo-1756757077703-26dc3ba7e853?q=80&w=600&auto=format&fit=crop',
- 'food'),
+ 'food', 1),
 
 ('Tea',
  'Freshly brewed aromatic Indian cutting tea (Masala Chai)',
  20.00,
  'https://images.unsplash.com/photo-1609670438772-9cf3afc5052b?q=80&w=600&auto=format&fit=crop',
- 'beverage'),
+ 'beverage', 1),
 
 ('Coffee',
  'Authentic South Indian filter coffee in a traditional brass dabara',
  25.00,
  'https://images.unsplash.com/photo-1758387941825-a6ecaec9c14d?q=80&w=600&auto=format&fit=crop',
- 'beverage');
+ 'beverage', 1);
 
 -- Test Query (uncomment if needed)
 -- SELECT id,customer_name,total_amount,status,created_at AS ist_time FROM orders;
