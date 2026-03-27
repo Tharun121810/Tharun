@@ -2,11 +2,7 @@
 --  Tharun Breakfast Center — Database Schema
 -- ============================================
 
-CREATE DATABASE IF NOT EXISTS tharun_db;
-  CHARACTER SET utf8mb4
-  COLLATE utf8mb4_unicode_ci;
-
-USE tharun_db;
+-- Removed CREATE DATABASE and USE to support Railway and generic environments
 
 -- ─── Menu Items ──────────────────────────────
 CREATE TABLE IF NOT EXISTS menu_items (

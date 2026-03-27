@@ -8,14 +8,20 @@ const fs    = require('fs');
 const path  = require('path');
 
 (async () => {
-  // Connect WITHOUT specifying a database first so we can create it
-  const conn = await mysql.createConnection({
-    host:     process.env.DB_HOST     || 'localhost',
-    user:     process.env.DB_USER     || 'root',
-    password: process.env.DB_PASSWORD || '',
-    multipleStatements: true,
-    timezone: '+05:30'
-  });
+  const connectionUri = process.env.MYSQL_PUBLIC_URL || process.env.MYSQL_URL;
+  
+  const connParams = connectionUri 
+    ? { uri: connectionUri, multipleStatements: true, timezone: '+05:30' }
+    : {
+        host:     process.env.MYSQLHOST     || process.env.DB_HOST     || 'localhost',
+        user:     process.env.MYSQLUSER     || process.env.DB_USER     || 'root',
+        password: process.env.MYSQLPASSWORD || process.env.DB_PASSWORD || '',
+        port:     process.env.MYSQLPORT     || 3306,
+        multipleStatements: true,
+        timezone: '+05:30'
+      };
+
+  const conn = await mysql.createConnection(connParams);
 
   try {
     console.log('✅  Connected to MySQL server.');

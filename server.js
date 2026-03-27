@@ -16,17 +16,23 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // ─── MySQL Connection Pool ────────────────────────────────────────────────────
-const pool = mysql2.createPool({
-  host:     process.env.MYSQLHOST     || process.env.DB_HOST     || 'localhost',
-  user:     process.env.MYSQLUSER     || process.env.DB_USER     || 'root',
-  password: process.env.MYSQLPASSWORD || process.env.DB_PASSWORD || 'tiger',
-  database: process.env.MYSQLDATABASE || process.env.DB_NAME     || 'tharun_db',
-  port:     process.env.MYSQLPORT     || 3306,
-  timezone: '+05:30', // Ensure session time is IST
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0
-});
+const connectionUri = process.env.MYSQL_PUBLIC_URL || process.env.MYSQL_URL;
+
+const poolConfig = connectionUri 
+  ? { uri: connectionUri, timezone: '+05:30', waitForConnections: true, connectionLimit: 10, queueLimit: 0 }
+  : {
+      host:     process.env.MYSQLHOST     || process.env.DB_HOST     || 'localhost',
+      user:     process.env.MYSQLUSER     || process.env.DB_USER     || 'root',
+      password: process.env.MYSQLPASSWORD || process.env.DB_PASSWORD || 'tiger',
+      database: process.env.MYSQLDATABASE || process.env.DB_NAME     || 'tharun_db',
+      port:     process.env.MYSQLPORT     || 3306,
+      timezone: '+05:30',
+      waitForConnections: true,
+      connectionLimit: 10,
+      queueLimit: 0
+    };
+
+const pool = connectionUri ? mysql2.createPool(connectionUri) : mysql2.createPool(poolConfig);
 
 const db = pool.promise();
 
